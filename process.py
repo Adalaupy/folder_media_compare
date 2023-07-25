@@ -1,8 +1,9 @@
 import glob
 import os
-from PIL import Image
+from PIL import Image,ImageSequence
 from moviepy.editor import VideoFileClip
 import shutil
+from io import BytesIO
 
 
 # The Path got from GUI is string, convert them into list for handling multiple path.
@@ -23,12 +24,13 @@ def Str_To_List(String_text):
 # Find all video,image file from the path
 def find_media(path_list):
 
-    img_extension = ('*.jpg', '*.jpeg', '*.png', '*.bmp', '*.gif')
+    img_extension = ('*.jpg', '*.jpeg', '*.png', '*.bmp')
     vdo_extension = ('*.mp4', '*.avi', '*.mkv', '*.mov')
-
+    gif_extension = ('*.gif',)
 
     img_file = []
     vdo_file = []
+    gif_file = [] 
 
     for path_item in path_list:        
 
@@ -42,11 +44,19 @@ def find_media(path_list):
             vdo_file.append(glob.glob(os.path.join(path_item,ext)))
 
 
+        for ext in gif_extension:
+
+            gif_file.append(glob.glob(os.path.join(path_item,ext)))
+            
+
     img_file = [item for item in img_file for item in item]
     vdo_file = [item for item in vdo_file for item in item]
+    gif_file = [item for item in gif_file for item in item]
 
 
-    return img_file,vdo_file
+
+
+    return img_file,vdo_file,gif_file
 
 
 
@@ -135,6 +145,53 @@ def vdo_compare(vdoList_from,vdoList_to):
 
 
 
+# Compare the video from two folder and copy the new photo to the default destination
+def gif_compare(gifList_from,gifList_to):
+
+    not_in_List = []
+    
+    
+    for i in range(len(gifList_from)):
+        
+        isFound = False
+
+        byte_from = BytesIO()
+        Image.open(gifList_from[i]).save( byte_from , format="GIF" )
+        img_from_byte = byte_from.getvalue()
+
+        for y in range(len(gifList_to)):
+
+            byte_to = BytesIO()
+            Image.open(gifList_to[y]).save( byte_to , format="GIF" )
+            img_to_byte = byte_from.getvalue()
+
+            if img_from_byte == img_to_byte:
+
+                isFound = True
+
+                break
+
+        
+        if not isFound:
+
+            not_in_List.append(gifList_from[i])   
+            
+            fileName = os.path.basename(gifList_from[i])
+            destination_file = default_destination + "\\" + fileName
+
+            shutil.copy(gifList_from[i],destination_file)
+    
+
+
+
+
+
+
+    
+    return not_in_List
+
+
+
 
 
 # Main process
@@ -151,8 +208,9 @@ def Process(from_str,to_str):
 
 
 
-    imgList_from,vdoList_from = find_media(From_List)
-    imgList_to,vdoList_to = find_media(To_List)
+    imgList_from,vdoList_from,gifList_from = find_media(From_List)
+    imgList_to,vdoList_to,gifList_to = find_media(To_List)
+
 
 
 
@@ -163,3 +221,7 @@ def Process(from_str,to_str):
 
     not_in_List_video = vdo_compare(vdoList_from,vdoList_to)
     print(f"You have copied {str(len(not_in_List_video))} videos")
+
+
+    not_in_List_video = gif_compare(gifList_from,gifList_to)
+    print(f"You have copied {str(len(not_in_List_video))} gif")
