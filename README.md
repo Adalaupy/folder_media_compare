@@ -14,7 +14,10 @@ This project is created for media transfer across different folders, despite the
 ```
 python main.py
 ```
-
+2. a Tkinter UI pop up
+3. input the source path(s) and desintation path(s)
+4. Press "Submit" for run
+5. new files will be identified and transfered
 
 
 # Installation
@@ -24,7 +27,13 @@ pip install -r requirements.txt
  
 
 # Room for Improvement/Limitation
+- limited file type
+- speed of scanning file
+- folder path have to input manually
 
 
 # Remark
-
+1. file type accepted:
+- image: '*.jpg', '*.jpeg', '*.png', '*.bmp' , '*.gif'
+- video: '*.mp4', '*.avi', '*.mkv', '*.mov'
+2. if more than 1 destination path, new file will be automatically copied to first path
