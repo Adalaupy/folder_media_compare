@@ -26,8 +26,7 @@ class TextEditor:
         
         
         #        
-        self.text_widget1.insert(1.0,r"""C:\Users\ada_lau\Documents\Work\Learn\Photo_Compare\From
-                                         C:\Users\ada_lau\Documents\Work\Learn\Photo_Compare\From2""".strip())
+        self.text_widget1.insert(1.0,r"""""".strip())
         
         
         self.text_widget1.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
@@ -38,8 +37,7 @@ class TextEditor:
         self.text_widget2_title.pack(pady=5)
         self.text_widget2 = tk.Text(self.text_widget2_frame, font=("Helvetica", 12), height=10, width=50, wrap=tk.WORD)
         #
-        self.text_widget2.insert(1.0,r"""C:\Users\ada_lau\Documents\Work\Learn\Photo_Compare\To
-                                         C:\Users\ada_lau\Documents\Work\Learn\Photo_Compare\To2""".strip())
+        self.text_widget2.insert(1.0,r"""""".strip())
         
         self.text_widget2.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
         self.text_widget2_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)

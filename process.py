@@ -1,6 +1,6 @@
 import glob
 import os
-from PIL import Image,ImageSequence
+from PIL import Image
 from moviepy.editor import VideoFileClip
 import shutil
 from io import BytesIO
@@ -180,11 +180,6 @@ def gif_compare(gifList_from,gifList_to):
             destination_file = default_destination + "\\" + fileName
 
             shutil.copy(gifList_from[i],destination_file)
-    
-
-
-
-
 
 
     
